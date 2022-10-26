@@ -1,0 +1,7 @@
+{
+  "name": "modalStatusBar",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
