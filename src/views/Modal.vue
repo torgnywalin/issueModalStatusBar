@@ -24,9 +24,17 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'TestModal',
-  setup: () => {
+  props: {
+    setCanDismiss: {
+      type: Function,
+    }
+  },
+  setup: (props) => {
     
     async function dismiss() {
+      if(props.setCanDismiss) {
+        props.setCanDismiss(true);
+      }
       modalController.dismiss();
     }
     

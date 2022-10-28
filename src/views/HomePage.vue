@@ -15,12 +15,11 @@
       <p>StatusBar is set to 'DARK' with StatusBar.setStyle({ style: Style.Dark }) in App.vue</p>
     
       <div id="container">
-        <ion-button @click="openModal(true)">Open Card modal (With swipeToClose: true)</ion-button>
-        <ion-button @click="openModal(false)">Open Card modal (With swipeToClose: false)</ion-button>
-        <ion-button @click="setDarkMode()">Reset statusbar</ion-button>
+        <ion-button @click="openModal(true)">Open Card modal</ion-button>
+        <ion-button @click="setDarkMode()">Reset statusbar to DARK</ion-button>
         <br/>
         <br/>
-        <em>Style is now: {{ style }}</em>
+        <em>Style is now: {{ style }}</em> 
       </div>
     </ion-content>
   </ion-page>
@@ -47,10 +46,18 @@ export default defineComponent({
 
     async function openModal(swipeToClose: boolean) {
       const main = document.getElementById('main');
+      const canDismiss = ref(false);
       const modal = await modalController.create({
         component: TestModal,
         presentingElement: main || undefined,
-        swipeToClose: swipeToClose,
+        componentProps: {
+          setCanDismiss: (value: boolean) => {
+            canDismiss.value = value;
+          },
+        },
+        canDismiss: async () => {
+          return canDismiss.value; 
+        },
       });
       await modal.present();
       await modal.onDidDismiss();
